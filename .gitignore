@@ -59,7 +59,7 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 staticfiles/
-media/
+mediafiles/
 
 # Flask stuff:
 instance/
@@ -131,7 +131,3 @@ dmypy.json
 # IDE
 .idea
 .vscode
-
-static/
-statifiles/
-mediafiles/

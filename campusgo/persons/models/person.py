@@ -45,8 +45,7 @@ class Person(ClusterableModel, NumeratorMixin, TitleMixin, ContactAbstract, Soci
     objects = PersonManager()
 
     # Last Education
-    last_education_level = models.CharField(
-        max_length=5,
+    last_education_level = models.PositiveIntegerField(
         choices=KKNILevel.CHOICES.value,
         default=KKNILevel.SMA.value,
         verbose_name=_('Level'))
@@ -73,6 +72,12 @@ class Person(ClusterableModel, NumeratorMixin, TitleMixin, ContactAbstract, Soci
     is_partner_applicant = models.BooleanField(default=False, verbose_name=_('partner applicant'))
     is_teacher_applicant = models.BooleanField(default=False, verbose_name=_('teacher applicant'))
     is_matriculant = models.BooleanField(default=False, verbose_name=_('matriculant'))
+
+    # wagtail autocomplete
+    autocomplete_search_field = 'fullname'
+
+    def autocomplete_label(self):
+        return "{}".format(self.fullname_with_title)
 
     @cached_property
     def fullname_with_title(self):

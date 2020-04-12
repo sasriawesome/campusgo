@@ -13,7 +13,6 @@ from campusgo.academic.admin import ProgramStudyFilter
 from campusgo.persons.admin import PersonModelAdmin
 
 
-
 class TeacherPersonalModelAdmin(PersonModelAdmin):
     model = TeacherPersonal
     menu_icon = 'fa-user'
@@ -50,5 +49,6 @@ class TeacherModelAdminGroup(ModelAdminGroup):
     def get_submenu_items(self):
         sub_menuitems = super().get_submenu_items()
         return sub_menuitems
+
 
 modeladmin_register(TeacherModelAdminGroup)

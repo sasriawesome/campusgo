@@ -131,6 +131,7 @@ class CourseModelAdmin(ModelAdmin):
     course_panels = [
         MultiFieldPanel([
             FieldPanel('rmu'),
+            FieldPanel('old_code'),
             FieldPanel('name'),
             FieldPanel('description'),
         ], heading=_('description')),

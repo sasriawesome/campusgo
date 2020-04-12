@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'campusgo.printpdf',
     'campusgo.persons',
     'campusgo.academic',
-    # 'campusgo.teachers',
+    'campusgo.teachers',
     # 'campusgo.students',
     # 'campusgo.lectures',
     # 'campusgo.attendances',
