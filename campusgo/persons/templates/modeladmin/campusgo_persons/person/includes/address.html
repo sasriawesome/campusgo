@@ -1,0 +1,15 @@
+{% load i18n %}
+{% if instance.address %}
+<ul class="head-list">
+  {% for address in instance.address.all %}
+  <li class="head-list-item">
+    <span class="list-label">{% trans 'Address' as ads %}{% firstof address.name ads %}:</span>
+    <p class="list-value">
+      {{ address.street1 | safe }} {{ address.street2 | safe }} <br/>
+      {% firstof address.city %} {% firstof address.province %} <br/>
+      {% firstof address.country %} {% firstof address.zipcode %}
+    </p>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}

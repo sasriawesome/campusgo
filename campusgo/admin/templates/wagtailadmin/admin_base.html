@@ -1,0 +1,15 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load static wagtailsettings_tags %}
+{% get_settings %}
+
+{% if settings.campusgo_core.CampusGoSetting.sitename %}
+  {% block branding_title %}
+    {% firstof settings.campusgo_core.CampusGoSetting.sitename 'Campus Go' %}
+  {% endblock %} - {% block titletag %}{% endblock %}
+{% endif %}
+
+{% if settings.campusgo_core.CampusGoSetting.logo %}
+  {% block branding_favicon %}
+    <link rel="shortcut icon" href="{{ settings.campusgo_core.CampusGoSetting.logo.file.url }}"/>
+  {% endblock %}
+{% endif %}

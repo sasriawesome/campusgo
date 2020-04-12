@@ -1,0 +1,9 @@
+{% extends "wagtailadmin/home.html" %}
+{% load i18n static wagtailsettings_tags %}
+{% get_settings %}
+
+{% if settings.campusgo_core.CampusGoSetting.sitename %}
+  {% block branding_welcome %}
+    {% trans 'Welcome to' %} {% firstof settings.campusgo_core.CampusGoSetting.sitename 'Campus Go' %}
+  {% endblock %}
+{% endif %}

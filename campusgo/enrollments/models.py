@@ -1,0 +1,102 @@
+import enum
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from wagtail.core.models import Orderable
+from modelcluster.models import ClusterableModel, ParentalKey
+from campusgo.core.models import BaseModel, MaxLength
+from campusgo.numerators.models import NumeratorMixin
+from campusgo.students.models import Student
+from campusgo.academic.models import AcademicYear
+from campusgo.lectures.models import Lecture
+
+
+class EnrollmentStatus(enum.Enum):
+    TRASH = 'TRASH'  # student can't delete enrollment, move to trash instead
+    DRAFT = 'DRAFT'  # student create new enrolment
+    SUBMITTED = 'SUBMITTED'  # after student submit, and waiting for coach validation
+    REVISION = 'REVISION'  # after coach request for revision
+    VALID = 'VALID'  # after coach validate enrolment
+
+
+class EnrollmentCriteria(enum.Enum):
+    NEW = '1'
+    REMEDY = '2'
+
+
+class EnrollmentPlan(BaseModel):
+    class Meta:
+        verbose_name = _("Enrollment Plan")
+        verbose_name_plural = _("Enrollment Plans")
+        unique_together = ('student', 'lecture')
+
+    student = models.ForeignKey(
+        Student, on_delete=models.CASCADE,
+        verbose_name=_("Student"))
+    lecture = models.ForeignKey(
+        Lecture,
+        on_delete=models.CASCADE,
+        verbose_name=_('Lecture'))
+    criteria = models.CharField(
+        max_length=2,
+        choices=[(str(x.value), str(x.name)) for x in EnrollmentCriteria],
+        default=EnrollmentCriteria.NEW.value,
+        verbose_name=_('Criteria'))
+
+    def __str__(self):
+        return "{} {}".format(self.student, self.lecture.code)
+
+
+class Enrollment(ClusterableModel, NumeratorMixin, BaseModel):
+    class Meta:
+        verbose_name = _("Enrollment")
+        verbose_name_plural = _("Enrollments")
+
+    doc_code = 'KRS'
+    student = models.ForeignKey(
+        Student, on_delete=models.CASCADE,
+        verbose_name=_("Student"))
+    academic_year = models.ForeignKey(
+        AcademicYear,
+        on_delete=models.CASCADE,
+        verbose_name=_('Academic Year'))
+    note = models.TextField(
+        max_length=MaxLength.MEDIUM.value,
+        null=True, blank=True,
+        verbose_name=_("Note for coach"))
+    coach_review = models.TextField(
+        max_length=MaxLength.MEDIUM.value,
+        null=True, blank=True,
+        verbose_name=_("Coach review"))
+    status = models.CharField(
+        max_length=2,
+        choices=[(str(x.value), str(x.name)) for x in EnrollmentStatus],
+        default=EnrollmentStatus.DRAFT,
+        verbose_name=_('Status'))
+
+    def __str__(self):
+        return self.doc_code
+
+
+class EnrollmentItem(Orderable, BaseModel):
+    class Meta:
+        verbose_name = _("Enrollment Item")
+        verbose_name_plural = _("Enrollment Items")
+        unique_together = ('enrollment', 'lecture')
+
+    enrollment = ParentalKey(
+        Enrollment, related_name='lectures',
+        on_delete=models.CASCADE,
+        verbose_name=_('Enrolment'))
+    lecture = ParentalKey(
+        Lecture, related_name='enrollments',
+        on_delete=models.CASCADE,
+        verbose_name=_('Lecture'))
+    criteria = models.CharField(
+        max_length=2,
+        choices=[(str(x.value), str(x.name)) for x in EnrollmentCriteria],
+        default=EnrollmentCriteria.NEW,
+        verbose_name=_('Criteria'))
+
+    def __str__(self):
+        return str(self.lecture)

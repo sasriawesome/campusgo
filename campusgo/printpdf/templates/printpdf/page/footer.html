@@ -1,0 +1,13 @@
+{% extends 'printpdf/print_base.html' %}
+{% load static i18n wagtailadmin_tags wagtailcore_tags wagtailsettings_tags %}
+
+{% block wrapper %}
+<div class="page-footer">
+    {% if settings.campusgo_core.CampusGoSetting %}
+        <p align="center">
+        {% firstof settings.campusgo_core.CampusGoSetting.tagline '' %}<br/>
+        {% firstof settings.campusgo_core.CampusGoSetting.website '' %}
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "modeladmin/inspect.html" %}
+{% load i18n static wagtailadmin_tags %}
+
+
+{% block header_title %}
+{% if instance.user_account %}
+<span class="avatar" style="width: 150px; height: 150px;">
+        <img src="{% avatar_url instance.user_account size=150 %}" alt=""/>
+    </span>
+{% endif %}
+<h2 class="list-value">
+  {{ instance.fullname_with_title }}
+</h2>
+{% endblock %}
+
+{% block header_left %}
+  <h3 style="margin-left: -15px;"><strong>{% trans 'Basic Informations' as fe_bio %} {{ fe_bio | upper }}</strong></h3>
+  {% include 'modeladmin/campusgo_persons/person/includes/basic_information.html' %}
+  {% if instance.employee %}
+    {% include 'modeladmin/campusgo_persons/person/includes/employee_information.html' with employee=instance.employee %}
+  {% endif %}
+{% endblock %}
+
+{% block header_right %}
+  <h3 style="margin-left: -15px;"><strong>{% trans 'Contacts' as fe_contact %} {{ fe_contact | upper }}</strong></h3>
+  {% include 'modeladmin/campusgo_persons/person/includes/contacts.html' %}
+  {% include 'modeladmin/campusgo_persons/person/includes/address.html' %}
+{% endblock %}
+
+{% block body_listing %}
+
+  {% if instance.skill_sets.all %}
+    <h3><strong>{% trans 'Skills' as skills %} {{ skills | upper }}</strong></h3>
+    {% include 'modeladmin/campusgo_persons/person/includes/skill.html' %}
+  {% endif %}
+
+  {% if instance.awards.all %}
+    {% include 'modeladmin/campusgo_persons/person/includes/award.html' %}
+  {% endif %}
+
+  {% if instance.education_histories.all %}
+    {% include 'modeladmin/campusgo_persons/person/includes/formal_education.html' %}
+  {% endif %}
+
+  {% if instance.nonformaleducation_histories.all %}
+    {% include 'modeladmin/campusgo_persons/person/includes/nonformal_education.html' %}
+  {% endif %}
+
+  {% if instance.working_histories.all %}
+    {% include 'modeladmin/campusgo_persons/person/includes/working.html' %}
+  {% endif %}
+
+  {% if instance.organization_histories.all %}
+    {% include 'modeladmin/campusgo_persons/person/includes/organization.html' %}
+  {% endif %}
+
+  {% if instance.publications.all %}
+    {% include 'modeladmin/campusgo_persons/person/includes/publication.html' %}
+  {% endif %}
+
+  {% if instance.families.all %}
+    {% include 'modeladmin/campusgo_persons/person/includes/family.html' %}
+  {% endif %}
+{% endblock %}

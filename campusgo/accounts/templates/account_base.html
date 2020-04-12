@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content_main %}
+
+  <div class="container pt-5">
+    <div class="row">
+      <div class="col-lg-3  block-sidebar">
+        {% block block_sidebar_left %}
+        {% endblock %}
+      </div>
+      <div class="col-lg-9 block-primary">
+        {% block block_primary %}
+        {% endblock %}
+    </div>
+  </div>
+
+
+{% endblock %}
