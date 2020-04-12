@@ -178,7 +178,6 @@ class CourseAbstract(NumeratorMixin, BaseModel):
         max_length=MaxLength.MEDIUM.value,
         verbose_name=_("teaching method"))
     level = models.PositiveIntegerField(
-        max_length=3,
         choices=KKNILevel.UNIVERSITY.value,
         default=KKNILevel.S1.value,
         verbose_name=_('level'))
