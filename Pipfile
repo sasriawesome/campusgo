@@ -44,6 +44,5 @@ wagtail-autocomplete = "*"
 redis = "*"
 pika = "*"
 
-
 [requires]
 python_version = "3.7"
