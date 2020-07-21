@@ -15,7 +15,7 @@ docutils = "*"
 
 [packages]
 django = "==2.2.10"
-wagtail = "==2.8"
+wagtail = "==2.9.3"
 python-pdf = "==0.37"
 qrcode = {extras = ["pil"],version = "*"}
 boto3 = "*"
